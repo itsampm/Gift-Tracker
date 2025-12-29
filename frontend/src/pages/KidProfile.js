@@ -22,7 +22,7 @@ function calculateAge(birthdayStr) {
   return age;
 }
 
-export default function KidProfile() {
+export default function KidProfile({ darkMode, setDarkMode }) {
   const { kidId } = useParams();
   const navigate = useNavigate();
   const [kid, setKid] = useState(null);
