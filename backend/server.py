@@ -80,7 +80,7 @@ def calculate_age(birthday_str: str) -> int:
         birthday = datetime.strptime(birthday_str, "%Y-%m-%d").date()
         today = date.today()
         age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
-        return age
+        return max(0, age)
     except:
         return 0
 
