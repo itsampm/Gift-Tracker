@@ -55,61 +55,54 @@ export default function KidCard({ kid, index, onDelete, onClick }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      whileHover={{ scale: 1.02, rotate: -1 }}
+      transition={{ delay: index * 0.05 }}
+      whileHover={{ scale: 1.01 }}
       onClick={onClick}
-      className="sticker-card cursor-pointer relative overflow-hidden"
+      className="bg-white border-2 border-black rounded-lg p-4 shadow-hard hover:shadow-[2px_2px_0px_0px_#000000] transition-all cursor-pointer relative"
       data-testid={`kid-card-${kid.id}`}
     >
-      {/* Birthday countdown badge */}
-      {daysUntil <= 30 && (
-        <div className="absolute top-4 right-4 bg-warning text-black px-3 py-1 rounded-full border-2 border-black text-xs font-bold">
-          {daysUntil === 0 ? '🎂 Today!' : `${daysUntil}d`}
+      <div className="flex items-center gap-4">
+        {/* Compact Photo */}
+        <div className="w-16 h-16 rounded-lg border-2 border-black overflow-hidden flex-shrink-0 bg-secondary/20">
+          {kid.photo ? (
+            <img src={kid.photo} alt={kid.name} className="w-full h-full object-cover" data-testid={`kid-photo-${kid.id}`} />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-3xl">
+              🎈
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Photo */}
-      <div className="w-full h-48 rounded-lg border-2 border-black overflow-hidden mb-4 bg-secondary/20">
-        {kid.photo ? (
-          <img src={kid.photo} alt={kid.name} className="w-full h-full object-cover" data-testid={`kid-photo-${kid.id}`} />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-6xl">
-            🎈
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="space-y-3">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold mb-1" data-testid={`kid-name-${kid.id}`}>{kid.name}</h3>
-            <div className="flex items-center gap-2 text-sm text-foreground/70">
-              <Calendar size={16} />
+        {/* Info */}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg font-bold truncate mb-1" data-testid={`kid-name-${kid.id}`}>{kid.name}</h3>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="flex items-center gap-1 text-foreground/70">
+              <Calendar size={14} />
               <span data-testid={`kid-birthday-${kid.id}`}>{birthdayMonth}</span>
             </div>
+            <span className="px-2 py-0.5 bg-accent text-white rounded-full text-xs font-bold border border-black" data-testid={`kid-age-${kid.id}`}>
+              Age {age}
+            </span>
+            {daysUntil <= 30 && (
+              <span className="px-2 py-0.5 bg-warning text-black rounded-full text-xs font-bold border border-black">
+                {daysUntil === 0 ? '🎂 Today!' : `${daysUntil}d`}
+              </span>
+            )}
           </div>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handleDelete}
-            disabled={deleting}
-            className="p-2 bg-primary text-white rounded-full border-2 border-black shadow-button hover:translate-y-1 hover:shadow-none transition-all"
-            data-testid={`delete-kid-${kid.id}`}
-          >
-            <Trash2 size={16} />
-          </motion.button>
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="px-3 py-1 bg-accent text-white rounded-full text-sm font-bold border-2 border-black" data-testid={`kid-age-${kid.id}`}>
-            Age {age}
-          </span>
-          <div className="flex items-center gap-2 text-sm text-foreground/70">
-            <Gift size={16} />
-            <span>View Gifts</span>
-          </div>
-        </div>
+        {/* Delete Button */}
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleDelete}
+          disabled={deleting}
+          className="p-2 bg-primary text-white rounded-full border-2 border-black shadow-button hover:translate-y-1 hover:shadow-none transition-all flex-shrink-0"
+          data-testid={`delete-kid-${kid.id}`}
+        >
+          <Trash2 size={14} />
+        </motion.button>
       </div>
     </motion.div>
   );
