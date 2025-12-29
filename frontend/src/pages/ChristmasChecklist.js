@@ -26,6 +26,8 @@ export default function ChristmasChecklist() {
   const [kids, setKids] = useState([]);
   const [gifts, setGifts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showCustomYear, setShowCustomYear] = useState(false);
+  const [customYearInput, setCustomYearInput] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -54,7 +56,6 @@ export default function ChristmasChecklist() {
     const existingGift = getChristmasGiftForKid(kid.id);
     
     if (existingGift) {
-      // Delete the gift
       try {
         await axios.delete(`${API}/gifts/${existingGift.id}`);
         toast.success(`Removed Christmas gift for ${kid.name}`);
@@ -63,7 +64,6 @@ export default function ChristmasChecklist() {
         toast.error("Failed to remove gift");
       }
     } else {
-      // Add a placeholder gift
       try {
         await axios.post(`${API}/gifts`, {
           kid_id: kid.id,
@@ -80,8 +80,28 @@ export default function ChristmasChecklist() {
     }
   };
 
-  // Include 10 future years, current year, and 5 past years (total 16 years)
-  const years = Array.from({ length: 16 }, (_, i) => currentYear + 10 - i);
+  const handleNextYear = () => {
+    setSelectedYear(prev => prev + 1);
+  };
+
+  const handlePrevYear = () => {
+    setSelectedYear(prev => prev - 1);
+  };
+
+  const handleCustomYearSubmit = () => {
+    const year = parseInt(customYearInput);
+    if (year >= 2000 && year <= 2200) {
+      setSelectedYear(year);
+      setShowCustomYear(false);
+      setCustomYearInput("");
+    } else {
+      toast.error("Please enter a year between 2000 and 2200");
+    }
+  };
+
+  // Quick access years (commonly used)
+  const quickYears = [currentYear - 1, currentYear, currentYear + 1, currentYear + 2];
+
   const kidsWithGifts = kids.map(kid => ({
     ...kid,
     hasGift: !!getChristmasGiftForKid(kid.id),
