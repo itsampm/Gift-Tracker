@@ -132,34 +132,22 @@ export default function AddGiftModal({ kidId, onClose, onGiftAdded }) {
             <div>
               <label className="block text-sm font-bold mb-2">Occasion *</label>
               <div className="flex gap-4">
-                <label className="flex-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="occasion"
-                    value="birthday"
-                    checked={formData.occasion === "birthday"}
-                    onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
-                    className="hidden"
-                    data-testid="occasion-birthday"
-                  />
-                  <div className={`chunky-input text-center ${formData.occasion === "birthday" ? "bg-primary text-white" : ""}`}>
-                    🎂 Birthday
-                  </div>
-                </label>
-                <label className="flex-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="occasion"
-                    value="christmas"
-                    checked={formData.occasion === "christmas"}
-                    onChange={(e) => setFormData({ ...formData, occasion: e.target.value })}
-                    className="hidden"
-                    data-testid="occasion-christmas"
-                  />
-                  <div className={`chunky-input text-center ${formData.occasion === "christmas" ? "bg-success text-white" : ""}`}>
-                    🎄 Christmas
-                  </div>
-                </label>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, occasion: "birthday" })}
+                  className={`flex-1 chunky-input text-center transition-colors ${formData.occasion === "birthday" ? "bg-primary text-white" : "hover:bg-foreground/5"}`}
+                  data-testid="occasion-birthday"
+                >
+                  🎂 Birthday
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, occasion: "christmas" })}
+                  className={`flex-1 chunky-input text-center transition-colors ${formData.occasion === "christmas" ? "bg-success text-white" : "hover:bg-foreground/5"}`}
+                  data-testid="occasion-christmas"
+                >
+                  🎄 Christmas
+                </button>
               </div>
             </div>
 
